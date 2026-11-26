@@ -1,12 +1,3 @@
-; Usman - Module 10: Collision checks
-; Extracted procedures (dependent on project shared definitions/data).
-
-; =========================================================================
-; COLLISION AND HIT-RESPONSE PROCEDURES
-; Extracted unchanged from main.asm and player.asm.
-; =========================================================================
-; TEAM OWNERSHIP (Project Guide): Usman - Module 10 (collision checks); Hajra - Module 12 (block/item hit interactions).
-
 %ifndef COLLISION_ASM
 %define COLLISION_ASM
 get_tile_at_pixel:
