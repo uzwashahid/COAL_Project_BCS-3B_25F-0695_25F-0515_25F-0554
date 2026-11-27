@@ -1,9 +1,6 @@
-; sprites.inc - Uzwa's original artwork, converted to palette-indexed data (asset data only, no game logic)
-; Index 0 = transparent. Indices 1..30 are set through the VGA DAC (see palette_data below).
-; Load: for i=1..N: INT 10h AX=1010h, BX=i, CH=G>>2, CL=B>>2, DH=R>>2 (6-bit DAC values).
 PAL_COUNT equ 30
 
-palette_data:            ; R,G,B per entry, 8-bit (shift right 2 for the DAC)
+palette_data:            ; R,G,B per entry, 8-bit 
     db 204,148, 92   ; index 1
     db  28,148, 28   ; index 2
     db 140, 84, 28   ; index 3
