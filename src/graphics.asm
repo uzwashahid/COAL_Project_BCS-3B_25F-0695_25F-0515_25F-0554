@@ -82,5 +82,82 @@ draw_all_enemies:
     jmp near .loop
 .done:
     ret
+draw_mario_sprite:
+    cmp byte [invuln_timer], 0
+    je .visible
+    test byte [invuln_timer], 02h
+    jz .visible
+    ret
+
+.visible:
+    mov ax, [player_x]
+    sub ax, [camera_x]
+    mov [draw_x], ax
+    mov ax, [player_y]
+    mov [draw_y], ax
+
+    mov byte [flip_x], 0
+    cmp byte [facing_dir], 0
+    jge .dir_ok
+    mov byte [flip_x], 1
+.dir_ok:
+    cmp byte [game_state], ST_DYING
+    je .small_die
+
+    cmp byte [power_state], 1
+    je .super_mario
+
+    mov al, [mario_anim]
+    cmp al, 0
+    je .sm_stand
+    cmp al, 1
+    je .sm_walk1
+    cmp al, 2
+    je .sm_walk2
+    cmp al, 3
+    je .sm_walk1
+    mov si, spr_mario_s_jump
+    jmp .blit_sm
+.sm_stand:
+    mov si, spr_mario_s_stand
+    jmp .blit_sm
+.sm_walk1:
+    mov si, spr_mario_s_walk1
+    jmp .blit_sm
+.sm_walk2:
+    mov si, spr_mario_s_walk2
+    jmp .blit_sm
+.small_die:
+    mov si, spr_mario_s_die
+    mov byte [flip_x], 0
+.blit_sm:
+    mov bx, 16
+    call blit_sprite_clipped
+    ret
+
+.super_mario:
+    mov al, [mario_anim]
+    cmp al, 0
+    je .bg_stand
+    cmp al, 1
+    je .bg_walk1
+    cmp al, 2
+    je .bg_walk2
+    cmp al, 3
+    je .bg_walk1
+    mov si, spr_mario_b_jump
+    jmp .blit_bg
+.bg_stand:
+    mov si, spr_mario_b_stand
+    jmp .blit_bg
+.bg_walk1:
+    mov si, spr_mario_b_walk1
+    jmp .blit_bg
+.bg_walk2:
+    mov si, spr_mario_b_walk2
+.blit_bg:
+    mov bx, 32
+    call blit_sprite_clipped
+    ret
 
 
