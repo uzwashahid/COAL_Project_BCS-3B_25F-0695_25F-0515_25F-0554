@@ -134,7 +134,7 @@ draw_mario_sprite:
     mov bx, 16
     call blit_sprite_clipped
     ret
-
+;---------------------------------------------------
 .super_mario:
     mov al, [mario_anim]
     cmp al, 0
@@ -159,7 +159,7 @@ draw_mario_sprite:
     mov bx, 32
     call blit_sprite_clipped
     ret
-
+;----------------------------------------------------------
 blit_sprite_clipped:
     push ax
     push bx
@@ -315,4 +315,71 @@ blit_sprite_clipped:
     pop cx
     pop ax
     ret
+;----------------------------------------------------
+blit_buffer:
+    mov dx, 03DAh
+.wait_end:
+    in al, dx
+    test al, 08h
+    jnz .wait_end
+.wait_start:
+    in al, dx
+    test al, 08h
+    jz .wait_start
+
+    push ds
+    push es
+    mov ax, [buffer_seg]
+    mov ds, ax
+    mov ax, 0A000h
+    mov es, ax
+    xor si, si
+    xor di, di
+    mov cx, 32000
+    rep movsw
+    pop es
+    pop ds
+    ret
+
+
+fill_rect:
+    push ax
+    push bx
+    push cx
+    push dx
+    push di
+    push es
+
+    mov di, [buffer_seg]
+    mov es, di
+
+    push ax
+    mov ax, bx
+    mov di, 320
+    push dx
+    mul di
+    pop dx
+    pop di
+    add di, ax
+
+    mov al, [fill_col]
+    mov bx, 320
+    sub bx, cx
+
+.rloop:
+    push cx
+    rep stosb
+    add di, bx
+    pop cx
+    dec dx
+    jnz .rloop
+
+    pop es
+    pop di
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+
 
