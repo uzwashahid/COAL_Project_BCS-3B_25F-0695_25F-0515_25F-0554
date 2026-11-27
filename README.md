@@ -30,10 +30,6 @@ Super Mario Bros — 8086 Assembly Edition is a team-developed, Mario-inspired p
 
 <!-- Add a short, real gameplay recording converted to GIF at assets/gameplay.gif. -->
 
-<p align="center">
-  <img src="assets/gameplay.gif" alt="Gameplay GIF" width="750">
-</p>
-
 > **Media note:** Add `assets/gameplay.png` and `assets/gameplay.gif` to the repository to activate the visuals above. These are intended to be captured from the running game, not mock-ups.
 
 ## 🕹️ Controls
