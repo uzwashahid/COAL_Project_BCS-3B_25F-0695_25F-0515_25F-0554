@@ -160,4 +160,159 @@ draw_mario_sprite:
     call blit_sprite_clipped
     ret
 
+blit_sprite_clipped:
+    push ax
+    push bx
+    push cx
+    push dx
+    push si
+    push di
+    push es
+
+    mov ax, [buffer_seg]
+    mov es, ax
+
+    mov [spr_h], bx
+    mov [spr_ptr], si
+    mov word [spr_row_idx], 0
+
+.row_loop:
+    mov ax, [spr_row_idx]
+    cmp ax, [spr_h]
+    jae .done
+
+    mov dx, [draw_y]
+    add dx, ax
+    cmp dx, HUD_H
+    jl .next_row
+    cmp dx, PLAY_BOTTOM_Y
+    jge .done
+
+    push ax
+    mov ax, dx
+    mov di, 320
+    mul di
+    mov di, ax
+    pop ax
+
+    mov bx, ax
+    shl bx, 1
+    shl bx, 1
+    shl bx, 1
+    shl bx, 1
+    add bx, [spr_ptr]
+
+    xor cx, cx
+.col_loop:
+    cmp cx, 16
+    jae .next_row
+
+    mov ax, [draw_x]
+    add ax, cx
+    cmp ax, 0
+    jl .next_col
+    cmp ax, SCREEN_W
+    jge .next_row
+
+    push di
+    add di, ax
+
+    mov si, cx
+    cmp byte [flip_x], 1
+    jne .read_px
+    mov si, 15
+    sub si, cx
+.read_px:
+    mov al, [bx + si]
+    or al, al
+    jz .skip_px
+    mov [es:di], al
+.skip_px:
+    pop di
+.next_col:
+    inc cx
+    jmp .col_loop
+
+.next_row:
+    inc word [spr_row_idx]
+    jmp .row_loop
+
+.done:
+    pop es
+    pop di
+    pop si
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+
+; =========================================================================
+; FIXED TOP 16-PIXEL PROFESSIONAL HUD (Y = 0..15)
+; =========================================================================
+
+.draw_time_normal:
+    mov bl, 8
+.draw_time_val:
+    mov dh, 1
+    mov dl, 23
+    mov cx, 3
+    call draw_uint_padded
+.skip_time_blink:
+
+    mov dh, 1
+    mov dl, 29
+    mov bl, 8
+    mov si, hud_val_x
+    call print_at_color
+
+    mov dh, 1
+    mov dl, 30
+    mov bl, 12
+    xor ax, ax
+    mov al, [lives]
+    mov cx, 2
+    call draw_uint_padded
+
+    mov word [draw_x], 282
+    mov word [draw_y], 4
+    mov si, spr_heart_full
+    cmp byte [game_state], ST_DYING
+    jne .draw_h1
+    mov si, spr_heart_empty
+.draw_h1:
+    call blit_8x8_hud
+
+    mov word [draw_x], 294
+    mov word [draw_y], 4
+    mov si, spr_heart_empty
+    cmp byte [power_state], 1
+    jne .draw_h2
+    mov si, spr_heart_full
+.draw_h2:
+    call blit_8x8_hud
+    ret
+
+
+.rloop:
+    mov cx, 8
+.cloop:
+    lodsb
+    or al, al
+    jz .skip
+    mov [es:di], al
+.skip:
+    inc di
+    loop .cloop
+    add di, 312
+    dec dx
+    jnz .rloop
+
+    pop es
+    pop di
+    pop si
+    pop dx
+    pop cx
+    pop ax
+    ret
 
