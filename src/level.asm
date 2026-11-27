@@ -1,10 +1,3 @@
-; =========================================================================
-; LEVEL INITIALIZATION, MAP, OBJECT AND COMPLETION LOGIC
-; Extracted unchanged from main.asm and collision.asm.
-; =========================================================================
-; TEAM OWNERSHIP (Project Guide): Uzwa - Module 3 (level/map setup) and Module 14 (game-state transitions);
-; Hajra - Module 12 (blocks/items and pickups).
-
 init_new_game:
     mov word [score_lo], 0
     mov word [score_hi], 0
@@ -60,9 +53,8 @@ reset_level_for_life:
     call clear_edge_keys
     ret
 
-; =========================================================================
-; STATE UPDATES: TITLE, PAUSED, DYING, LIFELOST, FLAGSLIDE, WIN, GAMEOVER
-; =========================================================================
+; STATE UPDATES
+
 
 update_flagslide_state:
     cmp byte [flag_phase], 0
@@ -299,11 +291,8 @@ award_coin:
 .done:
     ret
 
-; NOTE: trigger_block_hit lives in collis.asm.
+; MUSHROOM POWER-UP AND VISUAL EFFECTS
 
-; =========================================================================
-; MUSHROOM POWER-UP & VISUAL EFFECTS
-; =========================================================================
 
 orig_level_map:
 times 60 db T_EMPTY
@@ -348,9 +337,8 @@ db 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,2
 db 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,2,2
 db 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
 
-; =========================================================================
-; INITIAL ENEMY PLACEMENTS (5 GOOMBAS + 2 KOOPAS = 7 ACTIVE ENEMIES)
-; =========================================================================
+; INITIAL ENEMY PLACEMENTS 
+
 orig_enemies:
     db EN_GOOMBA,ES_WALK
     dw 208
@@ -410,6 +398,6 @@ orig_enemies:
 
     times 16 db 0
 
-; =========================================================================
-; 256-COLOR PALETTE (INDICES 0..36)
-; =========================================================================
+
+; 256-COLOR PALETTE 
+
