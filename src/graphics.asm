@@ -82,6 +82,8 @@ draw_all_enemies:
     jmp near .loop
 .done:
     ret
+
+;----------------------------------------
 draw_mario_sprite:
     cmp byte [invuln_timer], 0
     je .visible
@@ -134,7 +136,6 @@ draw_mario_sprite:
     mov bx, 16
     call blit_sprite_clipped
     ret
-;---------------------------------------------------
 .super_mario:
     mov al, [mario_anim]
     cmp al, 0
@@ -340,7 +341,7 @@ blit_buffer:
     pop es
     pop ds
     ret
-
+;----------------------------------
 
 fill_rect:
     push ax
