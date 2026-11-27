@@ -1,9 +1,3 @@
-; =========================================================================
-; MENU NAVIGATION AND GAME-STATE SCREENS
-; Extracted unchanged from main.asm, level.asm and graphics.asm.
-; =========================================================================
-; TEAM OWNERSHIP (Project Guide): Uzwa - Module 14 (title, pause, win and game-over state/screens).
-
 update_title_state:
     cmp byte [controls_view], 1
     jne .main_menu
@@ -139,8 +133,6 @@ update_gameover_state:
     mov byte [menu_cursor], 0
 .done:
     ret
-
-; NOTE: update_win_state lives in level.asm.
 
 render_title_screen:
     mov ax, [buffer_seg]
