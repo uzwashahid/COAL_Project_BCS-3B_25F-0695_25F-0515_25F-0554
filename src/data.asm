@@ -1,13 +1,4 @@
-; =========================================================================
-; data.asm - constants, shared data tables and runtime variables
-; Included from main.asm. No code and no ORG in this file.
-; =========================================================================
-; TEAM OWNERSHIP (Project Guide): Shared constants/data supporting the assigned modules;
-; Uzwa - Module 3 (level map/tile data); other runtime data is shared by the engine modules.
-
-; -------------------------------------------------------------------------
-; SYSTEM & DISPLAY CONSTANTS
-; -------------------------------------------------------------------------
+; SYSTEM and DISPLAY CONSTANTS
 SCREEN_W        equ 320
 SCREEN_H        equ 200
 HUD_H           equ 16
@@ -29,13 +20,12 @@ ENEMY_STRUCT_SZ equ 16
 MAX_PARTICLES   equ 8
 PARTICLE_SZ     equ 8
 
-; PIT Channel 0 divisor for 24.00 Hz (1193182 / 49716 = 24.00 Hz)
+
 PIT_DIVISOR     equ 49716
 FPS_HZ          equ 24
 
-; -------------------------------------------------------------------------
 ; TILE ID CONSTANTS
-; -------------------------------------------------------------------------
+
 T_EMPTY         equ 0
 T_GROUND_TOP    equ 1
 T_GROUND_DEEP   equ 2
@@ -52,9 +42,7 @@ T_POLE_TOP      equ 12
 T_POLE          equ 13
 T_COIN          equ 14
 
-; -------------------------------------------------------------------------
 ; GAME STATES
-; -------------------------------------------------------------------------
 ST_TITLE        equ 0
 ST_PLAYING      equ 1
 ST_PAUSED       equ 2
@@ -64,9 +52,7 @@ ST_FLAGSLIDE    equ 5
 ST_WIN          equ 6
 ST_GAMEOVER     equ 7
 
-; -------------------------------------------------------------------------
-; ENEMY TYPES & STATES
-; -------------------------------------------------------------------------
+; ENEMY TYPES AND STATES
 EN_NONE         equ 0
 EN_GOOMBA       equ 1
 EN_KOOPA        equ 2
@@ -77,9 +63,8 @@ ES_FLAT         equ 2
 ES_SHELL_IDLE   equ 3
 ES_SHELL_MOVE   equ 4
 
-; -------------------------------------------------------------------------
-; 8.8 FIXED-POINT PHYSICS CONSTANTS (TUNED FOR 24 FPS)
-; -------------------------------------------------------------------------
+; 8.8 FIXED-POINT PHYSICS CONSTANTS (FOR 24 FPS)
+
 ACCEL_WALK      equ 0028h       ; 0.156 px/frame^2
 ACCEL_RUN       equ 003Ch       ; 0.234 px/frame^2
 ACCEL_AIR       equ 001Eh       ; 0.117 px/frame^2
@@ -102,14 +87,11 @@ KOOPA_SPEED     equ 00A0h       ; 0.625 px/frame
 SHELL_SPEED     equ 0300h       ; 3.00 px/frame
 MUSH_SPEED      equ 0100h       ; 1.00 px/frame
 
-; -------------------------------------------------------------------------
 ; PALETTE SIZE
-; -------------------------------------------------------------------------
 PAL_TOTAL_COLORS equ 37
 
-; =========================================================================
-; STRINGS & LOOKUP TABLES
-; =========================================================================
+; STRINGS AND LOOKUP TABLES
+
 str_alloc_err       db 'DOS memory allocation failed.$'
 
 hud_lbl_mario       db 'MARIO',0
@@ -157,9 +139,8 @@ cloud_positions     dw 48,26,176,36,336,24,512,34,688,26,848,32
 hill_positions      dw 16,224,480,736
 bush_positions      dw 112,336,448,624,720
 
-; =========================================================================
-; RUNTIME VARIABLES & UNINITIALIZED BUFFERS
-; =========================================================================
+; RUNTIME VARIABLES AND UNINITIALIZED BUFFERS
+
 buffer_seg          dw 0
 font_seg            dw 0
 font_off            dw 0
