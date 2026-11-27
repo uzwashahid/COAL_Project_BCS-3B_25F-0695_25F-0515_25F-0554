@@ -1,10 +1,3 @@
-; =========================================================================
-; SUPER MARIO 8086 - COMPLETE DOS VGA MODE 13h PLATFORMER
-; Build: nasm -f bin MAIN.ASM -o MARIO.COM
-; Run:   DOSBox 0.74-3 -> MARIO.COM
-; =========================================================================
-; TEAM OWNERSHIP (Project Guide): Uzwa - Modules 1 (skeleton/setup), 2 (video mode setup/restore), 14 (game-state machine), 15 (exit/interrupt cleanup).
-; Related responsibilities are split across included files where noted below.
 BITS 16
 CPU 8086
 ORG 100h
@@ -22,9 +15,6 @@ jmp near start
 %include "level.asm"
 %include "menu.asm"
 
-; =========================================================================
-; PROGRAM ENTRY POINT
-; =========================================================================
 start:
     cld
     cli
@@ -60,9 +50,8 @@ start:
     mov byte [menu_cursor], 0
     mov byte [controls_view], 0
 
-; =========================================================================
 ; MAIN TIMER-DRIVEN GAME LOOP
-; =========================================================================
+
 main_loop:
     cmp byte [quit_flag], 1
     jne .dispatch
@@ -157,9 +146,8 @@ exit_game:
     mov ax, 4C00h
     int 21h
 
-; =========================================================================
-; GAME INITIALIZATION & LEVEL RESET
-; =========================================================================
+; GAME INITIALIZATION AND LEVEL RESET
+
 start_player_death:
     mov byte [game_state], ST_DYING
     mov byte [power_state], 0
@@ -247,12 +235,10 @@ update_playing_state:
 .abort_frame:
     ret
 
-; =========================================================================
-; MARIO MOVEMENT, PHYSICS & TILE COLLISION (8.8 FIXED-POINT)
-; =========================================================================
-; -------------------------------------------------------------------------
+; MARIO MOVEMENT, PHYSICS AND TILE COLLISION 
+
 ; TILE COLLISION HELPERS FOR MARIO
-; -------------------------------------------------------------------------
+
 spawn_brick_debris:
     push bx
     push cx
@@ -317,9 +303,9 @@ update_effects:
     loop .ploop
     ret
 
-; =========================================================================
-; ENEMY AI & COLLISIONS (GOOMBAS & KOOPAS, MAX 8)
-; =========================================================================
+
+; ENEMY COLLISIONS 
+
 add_score_ax:
     add [score_lo], ax
     adc word [score_hi], 0
@@ -341,12 +327,9 @@ award_extra_life:
 .done:
     ret
 
-; =========================================================================
 ; ONE-WAY CAMERA SCROLLING
-; =========================================================================
-; =========================================================================
-; GRAPHICS RENDERING ENGINE (64KB OFF-SCREEN BUFFER -> VGA A000h)
-; =========================================================================
+; GRAPHICS RENDERING ENGINE
+
 set_palette:
     mov dx, 03C8h
     xor al, al
@@ -376,9 +359,8 @@ load_font:
     pop ax
     ret
 
-; =========================================================================
 ; COMPLETE 60 x 12 LEVEL MAP (960 x 192 PIXELS)
-; =========================================================================
+
 palette_data:
     db 0,0,0, 204,148,92, 28,148,28, 140,84,28, 4,4,4, 12,92,12, 20,76,236, 68,36,36
     db 252,252,252, 244,52,52, 252,4,4, 236,196,124, 92,204,92, 52,116,52, 196,44,44, 92,60,60
@@ -386,9 +368,8 @@ palette_data:
     db 236,204,164, 228,236,52, 172,172,172, 148,108,84, 188,204,52, 76,44,124, 140,156,228, 0,0,0
     db 92,148,252, 16,24,56, 108,108,108, 168,72,24, 252,224,168
 
-; =========================================================================
-; PIXEL-ART TILES & SPRITES (0 = TRANSPARENT)
-; =========================================================================
+; PIXEL-ART TILES AND SPRITES 
+
 spr_ground_top:
     db 21,21,12,21,21,12,12,21,21,12,21,21,12,12,21,21
     db 12,12,2,12,12,2,2,12,12,2,12,12,2,2,12,12
