@@ -7,7 +7,7 @@
 
 <!-- Replace the path below after adding a genuine gameplay screenshot. -->
 <p align="center">
-  <img src="assets/gameplay.png" alt="Super Mario gameplay screenshot" width="750">
+  <img src="docs/title_screen.png" alt="Super Mario gameplay screenshot" width="750">
 </p>
 
 ## 🎮 About
