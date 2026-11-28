@@ -1,4 +1,4 @@
-draw_hud:
+ draw_hud:
     xor ax, ax
     xor bx, bx
     mov cx, 320
