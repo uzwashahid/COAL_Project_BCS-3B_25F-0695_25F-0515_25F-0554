@@ -1,9 +1,3 @@
-; =========================================================================
-; HUD DRAWING AND DISPLAY HELPERS
-; Extracted unchanged from graphics.asm.
-; =========================================================================
-; TEAM OWNERSHIP (Project Guide): Hajra - Module 13 (score, coins, timer and HUD rendering).
-
 draw_hud:
     xor ax, ax
     xor bx, bx
@@ -153,10 +147,6 @@ blit_8x8_hud:
     pop cx
     pop ax
     ret
-
-; =========================================================================
-; BIOS 8x8 TEXT & NUMBER RENDERING INTO OFF-SCREEN BUFFER
-; =========================================================================
 
 draw_uint_padded:
     push ax
