@@ -1,9 +1,3 @@
-; =========================================================================
-; keyboard.asm - keyboard IRQ1 install/restore, key IRQ, edge-key clear
-; Included from main.asm. No code outside procedures, no ORG in this file.
-; =========================================================================
-; TEAM OWNERSHIP (Project Guide): Hajra - Module 7 (keyboard interrupt handler and key flags).
-
 install_keyboard:
     push ds
     push es
@@ -51,7 +45,7 @@ key_irq:
     mov ah, al
     and al, 7Fh
 
-    cmp al, 4Bh                 ; Left Arrow
+    cmp al, 4Bh                 
     jne .chk_right
     test ah, 80h
     jnz .left_rel
@@ -62,7 +56,7 @@ key_irq:
     jmp .eoi
 
 .chk_right:
-    cmp al, 4Dh                 ; Right Arrow
+    cmp al, 4Dh                
     jne .chk_space
     test ah, 80h
     jnz .right_rel
@@ -73,7 +67,7 @@ key_irq:
     jmp .eoi
 
 .chk_space:
-    cmp al, 39h                 ; Space
+    cmp al, 39h                
     jne .chk_shift
     test ah, 80h
     jnz .space_rel
@@ -89,7 +83,7 @@ key_irq:
     jmp .eoi
 
 .chk_shift:
-    cmp al, 2Ah                 ; Left Shift
+    cmp al, 2Ah                 
     jne .chk_up
     test ah, 80h
     jnz .shift_rel
@@ -100,7 +94,7 @@ key_irq:
     jmp .eoi
 
 .chk_up:
-    cmp al, 48h                 ; Up Arrow
+    cmp al, 48h                
     jne .chk_down
     test ah, 80h
     jnz .up_rel
@@ -116,7 +110,7 @@ key_irq:
     jmp .eoi
 
 .chk_down:
-    cmp al, 50h                 ; Down Arrow
+    cmp al, 50h                
     jne .chk_p
     test ah, 80h
     jnz .down_rel
@@ -132,7 +126,7 @@ key_irq:
     jmp .eoi
 
 .chk_p:
-    cmp al, 19h                 ; P
+    cmp al, 19h               
     jne .chk_enter
     test ah, 80h
     jnz .p_rel
@@ -146,7 +140,7 @@ key_irq:
     jmp .eoi
 
 .chk_enter:
-    cmp al, 1Ch                 ; Enter
+    cmp al, 1Ch                
     jne .chk_esc
     test ah, 80h
     jnz .enter_rel
@@ -160,7 +154,7 @@ key_irq:
     jmp .eoi
 
 .chk_esc:
-    cmp al, 01h                 ; Esc
+    cmp al, 01h                
     jne .eoi
     test ah, 80h
     jnz .esc_rel
