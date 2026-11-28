@@ -213,4 +213,89 @@ resolve_player_y_collision:
     dec ax
     call trigger_block_hit
     ret
+trigger_block_hit:
+    cmp ax, 0
+    jl .tbh_oob
+    cmp ax, MAP_ROWS
+    jge .tbh_oob
+    cmp bp, 0
+    jl .tbh_oob
+    cmp bp, MAP_COLS
+    jl .tbh_inside
+.tbh_oob:
+    jmp .done
+.tbh_inside:
 
+    push ax
+    push bx
+    push cx
+    push dx
+
+    mov [hit_row], ax
+    mov [hit_col], bp
+    mov cl, MAP_COLS
+    mul cl
+    add ax, bp
+    mov bx, ax
+    mov al, [work_level_map + bx]
+
+    cmp al, T_QBLOCK_COIN
+    je .q_coin
+    cmp al, T_QBLOCK_MUSH
+    je .q_mush
+    cmp al, T_BRICK
+    je .brick
+    jmp .pop_done
+
+.q_coin:
+    mov byte [work_level_map + bx], T_USED
+    call award_coin
+    mov ax, 200
+    call add_score_ax
+
+    mov ax, [hit_col]
+    mov cl, 4
+    shl ax, cl
+    mov [popup_coin_x], ax
+    mov ax, [hit_row]
+    shl ax, cl
+    sub ax, 14
+    mov [popup_coin_y], ax
+    mov byte [popup_coin_timer], 12
+    jmp .pop_done
+
+.q_mush:
+    mov byte [work_level_map + bx], T_USED
+    mov ax, [hit_col]
+    mov cl, 4
+    shl ax, cl
+    mov [mush_x], ax
+    mov byte [mush_x_frac], 0
+    mov ax, [hit_row]
+    shl ax, cl
+    mov [mush_y], ax
+    mov byte [mush_y_frac], 0
+    mov word [mush_vx], MUSH_SPEED
+    mov word [mush_vy], 0
+    mov byte [mush_rise], 16
+    mov byte [mush_active], 1
+    jmp .pop_done
+
+.brick:
+    cmp byte [power_state], 1
+    jne .pop_done
+    mov byte [work_level_map + bx], T_EMPTY
+    mov ax, 50
+    call add_score_ax
+    mov ax, [hit_col]
+    mov dx, [hit_row]
+    call spawn_brick_debris
+
+.pop_done:
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+.done:
+    ret
+%endif
