@@ -55,7 +55,6 @@ reset_level_for_life:
 
 ; STATE UPDATES
 
-
 update_flagslide_state:
     cmp byte [flag_phase], 0
     jne .phase_walk
