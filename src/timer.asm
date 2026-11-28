@@ -1,9 +1,3 @@
-; =========================================================================
-; timer.asm - PIT timer (24 Hz) install/restore, timer IRQ, frame sync
-; Included from main.asm. No code outside procedures, no ORG in this file.
-; =========================================================================
-; TEAM OWNERSHIP (Project Guide): Hajra - Module 8 (timer interrupt and frame timing).
-
 install_timer:
     push ds
     push es
